@@ -28,7 +28,7 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
 
     
 def leaf_finder(adjacency_matrix):
-    
+    for
 
 
 
