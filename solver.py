@@ -23,6 +23,8 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     Output:
         Return 2 things. The first is a list of kingdoms representing the walk, and the second is the set of kingdoms that are conquered
     """
+    leaf_neighbours, to_travel, to_conquer, to_ignore = leaf_processer(adjacency_matrix)
+    
     raise Exception('"solve" function not defined')
     # return closed_walk, conquered_kingdoms
 
@@ -78,8 +80,6 @@ def leaf_processer(adjacency_matrix):
                 to_conquer.add(leaf)
 
     return list(leaf_neighbours.keys()), to_travel, to_conquer, to_ignore
-
-
 
 
 def neighbours(am_row, self_index):
