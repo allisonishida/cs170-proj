@@ -17,7 +17,7 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     """
     Write your algorithm here.
     Input:
-        list_of_kingdom_names: An list of kingdom names such that node i of the graph corresponds to name index i in the list
+        list_of_kingdom_names: A list of kingdom names such that node i of the graph corresponds to name index i in the list
         starting_kingdom: The name of the starting kingdom for the walk
         adjacency_matrix: The adjacency matrix from the input file
     Output:
@@ -26,13 +26,38 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     raise Exception('"solve" function not defined')
     # return closed_walk, conquered_kingdoms
 
+
+
+def solve_instance():
+    afnjkelnajknf
+
     
-def leaf_finder(adjacency_matrix):
-    for
+    
+"""
+======================================================================
+  Preprocessing Functions
+======================================================================
+"""
+
+    
+def leaf(adjacency_matrix):
+    for kingdom in adjacency_matrix:
+        
 
 
 
+        
+        
 
+    
+def neighbours(am_row):
+    count = 0
+    for neighbour in am_row:
+        if neighbour != x:
+            count += 1
+    return count
+    
+    
 """
 ======================================================================
    No need to change any code below this line
