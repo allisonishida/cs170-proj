@@ -29,7 +29,7 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
 
 
 def solve_instance():
-    afnjkelnajknf
+    pass
 
     
     
@@ -40,22 +40,63 @@ def solve_instance():
 """
 
     
-def leaf(adjacency_matrix):
-    for kingdom in adjacency_matrix:
-        
+def leaf_processer(adjacency_matrix):
+    leaf_neighbours = {}
 
+    for kingdom_index in range(0, len(adjacency_matrix)):
+        kingdom = adjacency_matrix[kingdom_index]
+        num_nhbrs, nhbrs = neighbours(kingdom, kingdom_index)
+        if num_nhbrs == 1:
+            nhbr = nhbrs[0]
+            nhbr_leaves = None
+            if nhbr in leaf_neighbours:
+                nhbr_leaves = leaf_neighbours[nhbr]
+                nhbr_leaves.append(kingdom_index)
+            else:
+                nhbr_leaves = [kingdom_index]
+            leaf_neighbours[nhbr] = nhbr_leaves
 
-
-        
-        
-
+    to_conquer = set()
+    to_ignore = set()
+    to_travel = {}
     
-def neighbours(am_row):
+    for neighbour in leaf_neighbours:
+        neighbour_cost = conquer_cost(adjacency_matrix, neighbour)
+        leaves_cost = 0
+        leaves = leaf_neighbours[neighbour]
+        for leaf in leaves:
+            leaves_cost += (2 * travel_cost(adjacency_matrix, neighbour, leaf))
+            leaves_cost += conquer_cost(adjacency_matrix, leaf)
+
+        if neighbour_cost <= leaves_cost:
+            to_conquer.add(neighbour)
+            for leaf in leaves:
+                to_ignore.add(leaf)
+        else:
+            to_travel[neighbour] = leaves
+            for leaf in leaves:
+                to_conquer.add(leaf)
+
+    return list(leaf_neighbours.keys()), to_travel, to_conquer, to_ignore
+
+
+
+
+def neighbours(am_row, self_index):
     count = 0
-    for neighbour in am_row:
-        if neighbour != x:
+    neighbours = []
+    for neighbour in range(0, len(am_row)):
+        neighbour_dist = am_row[neighbour]
+        if neighbour != self_index and neighbour_dist != 'x':
             count += 1
-    return count
+            neighbours.append(neighbour)
+    return count, neighbours
+
+def conquer_cost(adjacency_matrix, kingdom_index):
+    return adjacency_matrix[kingdom_index][kingdom_index]
+
+def travel_cost(adjacency_matrix, from_kingdom, to_kingdom):
+    return adjacency_matrix[from_kingdom][to_kingdom]
     
     
 """
@@ -80,6 +121,11 @@ def solve_from_file(input_file, output_directory, params=[]):
     utils.write_data_to_file(output_file, closed_walk, ' ')
     utils.write_to_file(output_file, '\n', append=True)
     utils.write_data_to_file(output_file, conquered_kingdoms, ' ', append=True)
+
+def input(input_file):
+    input_data = utils.read_file(input_file)
+    return data_parser(input_data)
+
 
 
 def solve_all(input_directory, output_directory, params=[]):
