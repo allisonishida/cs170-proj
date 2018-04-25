@@ -41,12 +41,24 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
 
     raise Exception('"solve" function not defined')
     # return closed_walk, conquered_kingdoms
-
+    
+    
+"""
+======================================================================
+  Solve_Instance Functions
+======================================================================
+"""
 
 
 def solve_instance(....):
     pass
 
+  
+def greedy_step(....):
+    pass
+
+def cost(....):
+    pass
     
     
 """
