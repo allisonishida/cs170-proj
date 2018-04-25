@@ -23,14 +23,28 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     Output:
         Return 2 things. The first is a list of kingdoms representing the walk, and the second is the set of kingdoms that are conquered
     """
-    leaf_neighbours, to_travel, to_conquer, to_ignore = leaf_processer(adjacency_matrix)
+    leaf_neighbours, to_conquer, to_ignore = leaf_processer(adjacency_matrix)
     
+    G = adjacency_matrix_to_graph(adjacency_matrix)
+    solution = None
+    lowest_cost = float("inf")
+    for i in range(0, 100):
+        poss_solution = solve_instance(....)
+        cost = cost_of_solution(G, poss_solution[0], poss_solution[1]) 
+        if cost < lowest_cost:
+            solution = poss_solution
+            lowest_cost = cost
+    
+    walk =solution[0]
+    conquered_set = solution[1] | to_conquer
+    return walk, conquered_set
+
     raise Exception('"solve" function not defined')
     # return closed_walk, conquered_kingdoms
 
 
 
-def solve_instance():
+def solve_instance(....):
     pass
 
     
@@ -60,7 +74,6 @@ def leaf_processer(adjacency_matrix):
 
     to_conquer = set()
     to_ignore = set()
-    to_travel = {}
     
     for neighbour in leaf_neighbours:
         neighbour_cost = conquer_cost(adjacency_matrix, neighbour)
@@ -74,12 +87,8 @@ def leaf_processer(adjacency_matrix):
             to_conquer.add(neighbour)
             for leaf in leaves:
                 to_ignore.add(leaf)
-        else:
-            to_travel[neighbour] = leaves
-            for leaf in leaves:
-                to_conquer.add(leaf)
 
-    return list(leaf_neighbours.keys()), to_travel, to_conquer, to_ignore
+    return list(leaf_neighbours.keys()), to_conquer, to_ignore
 
 
 def neighbours(am_row, self_index):
