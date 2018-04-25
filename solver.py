@@ -30,13 +30,14 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     lowest_cost = float("inf")
     for i in range(0, 100):
         poss_solution = solve_instance(....)
-        cost = cost_of_solution(G, poss_solution[0], poss_solution[1]) 
+        poss_walk = indices_to_names(poss_solution[0], list_of_kingdom_names)
+        cost = cost_of_solution(G, poss_walk, poss_solution[1]) 
         if cost < lowest_cost:
             solution = poss_solution
             lowest_cost = cost
     
-    walk =solution[0]
-    conquered_set = solution[1] | to_conquer
+    walk = indices_to_names(solution[0])
+    conquered_set = solution[1]
     return walk, conquered_set
 
     raise Exception('"solve" function not defined')
@@ -118,8 +119,26 @@ def conquer_cost(adjacency_matrix, kingdom_index):
 
 def travel_cost(adjacency_matrix, from_kingdom, to_kingdom):
     return adjacency_matrix[from_kingdom][to_kingdom]
-    
-    
+
+  
+  
+"""
+======================================================================
+  Helper Functions
+======================================================================
+"""
+ 
+def indices_to_names(indices, kingdom_names):
+    names = []
+    for i in indices:
+        names.append(kingdom_names[i])
+    return names
+  
+  
+  
+
+  
+  
 """
 ======================================================================
    No need to change any code below this line
