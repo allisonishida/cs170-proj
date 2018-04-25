@@ -103,12 +103,12 @@ def leaf_processer(adjacency_matrix):
     return list(leaf_neighbours.keys()), to_conquer, to_ignore
 
 
-def neighbours(am_row, self_index):
+def neighbours(am_row, row_index):
     count = 0
     neighbours = []
     for neighbour in range(0, len(am_row)):
         neighbour_dist = am_row[neighbour]
-        if neighbour != self_index and neighbour_dist != 'x':
+        if neighbour != row_index and neighbour_dist != 'x':
             count += 1
             neighbours.append(neighbour)
     return count, neighbours
