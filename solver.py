@@ -60,17 +60,18 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
         neighbors = neighbours(adjacency_matrix[index], index)[1]
         if random.random() > 0.9:
             random.shuffle(neighbors)
-            tour.append(neighbors[0])
-            to_conquer.add(neighbors[0])
-            to_ignore.add(neighbors[0])
+            nextNode = neighbors[0]
+            tour.append(nextNode)
+            to_conquer.add(nextNode)
+            to_ignore.add(nextNode)
             nextNodeNeighbors = neighbours(adjacency_matrix[nextNode], nextNode)[1]
             for neighbor in nextNodeNeighbors:
                 to_ignore.add(neighbor)
-            index = neighbors[0]
+            index = nextNode
         else:
             nextNode = neighbors[0]
             for neighbor in neighbors:
-                if neighbor not in tour:
+                if neighbor not in tour: #cannot just ignore them completely, just prioritize the ones not already visited
                     heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                     heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                     if heuristicNeighbor < heuristicNext:
@@ -87,7 +88,6 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
         tour.append(nx.shortest_path(G, index, list_of_kingdom_names.index(starting_kingdom))) #NEED WEIGHTS?
 
     return tour, to_conquer
-
 
     
     
