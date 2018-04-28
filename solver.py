@@ -70,7 +70,7 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
         else:
             nextNode = neighbors[0]
             for neighbor in neighbors:
-                if neighbor not in to_ignore:
+                if neighbor not in tour:
                     heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                     heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                     if heuristicNeighbor < heuristicNext:
