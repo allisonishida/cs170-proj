@@ -29,7 +29,8 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     solution = None
     lowest_cost = float("inf")
     for i in range(0, 100):
-        poss_solution = solve_instance(....)
+        poss_solution = solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to_conquer, to_ignore)
+        print(poss_solution)
         poss_walk = indices_to_names(poss_solution[0], list_of_kingdom_names)
         cost = cost_of_solution(G, poss_walk, poss_solution[1]) 
         if cost < lowest_cost:
@@ -56,28 +57,28 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
     tour = []
     tour.append(index)
     while len(to_ignore) != len(list_of_kingdom_names):
-        neighbors = neighbours(index, index)[1]
+        neighbors = neighbours(adjacency_matrix[index], index)[1]
         if random.random() > 0.9:
             random.shuffle(neighbors)
             tour.append(neighbors[0])
-            to_conquer.append(neighbors[0])
-            to_ignore.append(neighbors[0])
+            to_conquer.add(neighbors[0])
+            to_ignore.add(neighbors[0])
             for neighbor in neighbors:
-                to_ignore.append(neighbor)
+                to_ignore.add(neighbor)
             index = neighbors[0]
         else:
             nextNode = neighbors[0]
             for neighbor in neighbors:
                 if neighbor not in to_ignore:
-                    heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(neighbor)[0]
-                    heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(neighbor)[0]
+                    heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
+                    heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                     if heuristicNeighbor < heuristicNext:
                         nextNode = neighbor
             tour.append(nextNode)
-            to_conquer.append(nextNode)
-            to_ignore.append(nextNode)
+            to_conquer.add(nextNode)
+            to_ignore.add(nextNode)
             for neighbor in neighbors:
-                to_ignore.append(neighbor)
+                to_ignore.add(neighbor)
             index = nextNode
     if len(to_ignore) == len(list_of_kingdom_names) and index != list_of_kingdom_names.index(starting_kingdom):
         G = adjacency_matrix_to_graph(adjacency_matrix)
@@ -85,12 +86,7 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
 
     return tour, to_conquer
 
-  
-def greedy_step(....):
-    pass
 
-def cost(....):
-    pass
     
     
 """
