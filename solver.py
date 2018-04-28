@@ -63,7 +63,8 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
             tour.append(neighbors[0])
             to_conquer.add(neighbors[0])
             to_ignore.add(neighbors[0])
-            for neighbor in neighbors:
+            nextNodeNeighbors = neighbours(adjacency_matrix[nextNode], nextNode)[1]
+            for neighbor in nextNodeNeighbors:
                 to_ignore.add(neighbor)
             index = neighbors[0]
         else:
@@ -77,7 +78,8 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
             tour.append(nextNode)
             to_conquer.add(nextNode)
             to_ignore.add(nextNode)
-            for neighbor in neighbors:
+            nextNodeNeighbors = neighbours(adjacency_matrix[nextNode], nextNode)[1]
+            for neighbor in nextNodeNeighbors:
                 to_ignore.add(neighbor)
             index = nextNode
     if len(to_ignore) == len(list_of_kingdom_names) and index != list_of_kingdom_names.index(starting_kingdom):
