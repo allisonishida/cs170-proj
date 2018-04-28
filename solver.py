@@ -51,8 +51,39 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
 """
 
 
-def solve_instance(....):
-    pass
+def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to_conquer, to_ignore):
+    index = list_of_kingdom_names.index(starting_kingdom)
+    tour = []
+    tour.append(index)
+    while len(to_ignore) != len(list_of_kingdom_names):
+        neighbors = neighbours(index, index)[1]
+        if random.random() > 0.9:
+            random.shuffle(neighbors)
+            tour.append(neighbors[0])
+            to_conquer.append(neighbors[0])
+            to_ignore.append(neighbors[0])
+            for neighbor in neighbors:
+                to_ignore.append(neighbor)
+            index = neighbors[0]
+        else:
+            nextNode = neighbors[0]
+            for neighbor in neighbors:
+                if neighbor not in to_ignore:
+                    heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(neighbor)[0]
+                    heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(neighbor)[0]
+                    if heuristicNeighbor < heuristicNext:
+                        nextNode = neighbor
+            tour.append(nextNode)
+            to_conquer.append(nextNode)
+            to_ignore.append(nextNode)
+            for neighbor in neighbors:
+                to_ignore.append(neighbor)
+            index = nextNode
+    if len(to_ignore) == len(list_of_kingdom_names) and index != list_of_kingdom_names.index(starting_kingdom):
+        G = adjacency_matrix_to_graph(adjacency_matrix)
+        tour.append(nx.shortest_path(G, index, list_of_kingdom_names.index(starting_kingdom))) #NEED WEIGHTS?
+
+    return tour, to_conquer
 
   
 def greedy_step(....):
