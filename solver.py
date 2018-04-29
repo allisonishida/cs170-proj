@@ -52,14 +52,13 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
 """
 
 def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to_conquer, to_ignore):
-    index = list_of_kingdom_names.index(starting_kingdom)
+  index = list_of_kingdom_names.index(starting_kingdom)
     tour = []
     tour.append(index)
     while len(to_ignore) != len(list_of_kingdom_names):
-        neighbors = neighbours(adjacency_matrix[index], index)[1]
+        numNeighbors, neighbors = neighbours(adjacency_matrix[index], index)
         if random.random() > 0.9:
-            random.shuffle(neighbors)
-            nextNode = neighbors[0]
+            nextNode = random.choice(neighbors)
             tour.append(nextNode)
             to_conquer.add(nextNode)
             to_ignore.add(nextNode)
@@ -68,14 +67,12 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
                 to_ignore.add(neighbor)
             index = nextNode
         else:
-            nextNode = neighbors[0]
             num_in_tour = 0
             for neighbor in neighbors:
                 if neighbor in tour:
                     num_in_tour += 1
-            if num_in_tour == neighbours(adjacency_matrix[neighbor], neighbor)[0]:
-                random.shuffle(neighbors)
-                nextNode = neighbors[0]
+            if num_in_tour == numNeighbors:
+                nextNode = random.choice(neighbors)
                 tour.append(nextNode)
                 to_conquer.add(nextNode)
                 to_ignore.add(nextNode)
@@ -84,8 +81,9 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
                     to_ignore.add(neighbor)
                 index = nextNode
             else:
+                nextNode = random.choice(neighbors)
                 for neighbor in neighbors:
-                    if neighbor not in tour: #cannot just ignore them completely, just prioritize the ones not already visited
+                    if neighbor not in tour and neighbor not in to_ignore:
                         heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                         heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                         if heuristicNeighbor < heuristicNext:
