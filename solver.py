@@ -26,23 +26,25 @@ def solve(list_of_kingdom_names, starting_kingdom, adjacency_matrix, params=[]):
     leaf_neighbours, to_conquer, to_ignore = leaf_processer(adjacency_matrix)
     
     G = adjacency_matrix_to_graph(adjacency_matrix)
+
+
     solution = None
     lowest_cost = float("inf")
     for i in range(0, 100):
+
         poss_solution = solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to_conquer, to_ignore)
         print(poss_solution)
-        poss_walk = indices_to_names(poss_solution[0], list_of_kingdom_names)
-        cost = cost_of_solution(G, poss_walk, poss_solution[1]) 
-        if cost < lowest_cost:
-            solution = poss_solution
-            lowest_cost = cost
-    
-    walk = indices_to_names(solution[0])
-    conquered_set = solution[1]
-    return walk, conquered_set
+        cost = cost_of_solution(G, poss_solution[0], poss_solution[1])
 
-    raise Exception('"solve" function not defined')
-    # return closed_walk, conquered_kingdoms
+        if cost[0] < lowest_cost:
+            solution = poss_solution
+            lowest_cost = cost[0]
+
+    walk = indices_to_names(solution[0], list_of_kingdom_names)
+    conquer = indices_to_names(solution[1], list_of_kingdom_names)
+    return walk, conquer
+
+
     
     
 """
@@ -104,8 +106,6 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
         path = nx.shortest_path(G, index, list_of_kingdom_names.index(starting_kingdom))
         for p in path[1:]:
             tour.append(p)
-    print('is valid?')
-    print(is_valid_walk(G, tour))
     return tour, conquered
 
 
