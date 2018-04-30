@@ -89,7 +89,7 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
                 for neighbor in neighbors:
                     if neighbor in to_conquer:
                         nextNode = neighbor
-                    if neighbor not in tour and neighbor not in to_ignore:
+                    elif neighbor not in tour and neighbor not in to_ignore:
                         heuristicNeighbor = conquer_cost(adjacency_matrix, neighbor) + travel_cost(adjacency_matrix, index, neighbor) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                         heuristicNext = conquer_cost(adjacency_matrix, nextNode) + travel_cost(adjacency_matrix, index, nextNode) - neighbours(adjacency_matrix[neighbor], neighbor)[0]
                         if heuristicNeighbor < heuristicNext:
@@ -103,7 +103,7 @@ def solve_instance(list_of_kingdom_names, starting_kingdom, adjacency_matrix, to
                 index = nextNode
     if index != list_of_kingdom_names.index(starting_kingdom):
         G = adjacency_matrix_to_graph(adjacency_matrix)
-        path = nx.shortest_path(G, index, list_of_kingdom_names.index(starting_kingdom))
+        path = nx.shortest_path(G, index, list_of_kingdom_names.index(starting_kingdom), weight='weight')
         for p in path[1:]:
             tour.append(p)
     return tour, conquered
